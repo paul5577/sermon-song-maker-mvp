@@ -1,0 +1,11 @@
+node_modules
+.next
+.env.local
+.data/uploads/*
+.data/work/*
+.data/projects/*.json
+public/generated/*
+!public/generated/.gitkeep
+!.data/uploads/.gitkeep
+!.data/work/.gitkeep
+!.data/projects/.gitkeep

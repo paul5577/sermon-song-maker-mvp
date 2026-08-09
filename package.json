@@ -1,0 +1,18 @@
+{
+  "name": "sermon-song-maker-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "모바일 우선 설교찬양 MP3 → YouTube MP4 자동 생성 MVP",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "worker": "node scripts/render-worker.mjs",
+    "test:render": "node scripts/test-render.mjs"
+  },
+  "dependencies": {
+    "next": "^16.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
