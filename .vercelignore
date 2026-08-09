@@ -1,0 +1,7 @@
+.data/
+public/generated/
+uploads/
+work/
+*.mp4
+*.mp3
+.git
