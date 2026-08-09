@@ -91,6 +91,12 @@ export default function SermonSongMaker() {
     if (!form.scripture.trim()) return setError('성경 본문을 입력해 주세요.');
     if (!form.worshipDate) return setError('예배 날짜를 선택해 주세요.');
 
+    // Vercel Serverless Function 4.5MB 페이로드 한계 감지
+    const VERCEL_MAX_BYTES = 4.5 * 1024 * 1024;
+    if (audioFile.size > VERCEL_MAX_BYTES) {
+      return setError(`⚠️ 선택하신 MP3 파일 크기는 ${(audioFile.size / 1024 / 1024).toFixed(1)}MB로 Vercel 무료 서버 일괄 업로드 제한(4.5MB)을 초과했습니다. 4.5MB 이하의 MP3 파일을 선택해 주시거나 Supabase Storage 연결을 완료해 주세요.`);
+    }
+
     setBusy(true);
     try {
       let buffer = audioBuffer;
@@ -123,6 +129,9 @@ export default function SermonSongMaker() {
         data = await res.json();
       } else {
         const text = await res.text();
+        if (res.status === 413 || text.includes('FUNCTION_PAYLOAD_TOO_LARGE') || text.includes('Too Large')) {
+          throw new Error(`⚠️ Vercel 서버 업로드 제한(4.5MB)을 초과했습니다. 4.5MB 이하 MP3 파일을 선택해 주세요.`);
+        }
         if (!res.ok) {
           throw new Error(`서버 오류 (${res.status}): ${text.slice(0, 100) || '알 수 없는 응답입니다.'}`);
         }
